@@ -8,7 +8,7 @@ from ticket import routes as ticket_routes
 from product import routes as product_routes
 from utils.db import Db
 from settings import settings
-
+from auth.handlers import IndexHandler
 
 class ApiApplication(tornado.web.Application):
     pass
@@ -16,7 +16,7 @@ class ApiApplication(tornado.web.Application):
 
 def create(settings):
     routes = [
-        (r"/api", None),
+        (r"/api", IndexHandler),
     ]
 
     # Adding the routes of all the modules
