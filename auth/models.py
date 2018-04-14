@@ -46,10 +46,9 @@ class AuthToken(UIDMixin, DeletableMixin, Base):
         self.mark_deleted()
 
     @staticmethod
-    def create_token(session, user_uid, token_type):
-        token = AuthToken(user_uid=user_uid, token_type=token_type)
+    def create_token(session, user, token_type):
+        token = AuthToken(auth=user, token_type=token_type)
         session.add(token)
-        session.flush()
         return token
 
     @staticmethod
