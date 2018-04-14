@@ -110,7 +110,7 @@ class EditPermissionHandler(BaseHandler):
                 permission = int(permission)
 
                 if permission not in [0, 1]:
-                    raise Exception
+                    raise Exception('Permission must be either of 0 or 1.')
 
                 permissions[ix] = int(permission)
 
@@ -127,7 +127,7 @@ class EditPermissionHandler(BaseHandler):
 
             updated_permission.extend(permissions)
 
-            user.permissions = updated_permission
+            user.permissions = updated_permission.to01()
 
             session.flush()
 
