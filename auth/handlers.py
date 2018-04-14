@@ -7,6 +7,11 @@ from auth.models import Auth, AuthToken
 
 
 class IndexHandler(BaseHandler):
+    """
+    Route - /api
+    Method - POST, GET
+
+    """
     def get(self):
         self.write(dict(message='Hello, Welcome to Issue Ticket System!'))
 
@@ -15,6 +20,13 @@ class IndexHandler(BaseHandler):
 
 
 class SignupHandler(BaseHandler):
+    """
+    Route - /api/sign-up
+    Method - POST
+    Params -
+        email - Unique email for which user's account to be created.
+        password - Any passphrase having min 6 characters.
+    """
     def post(self):
         data = self.convert_argument_to_json()
 
@@ -60,6 +72,13 @@ class SignupHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
+    """
+    Route - /api/sign-in
+    Method - POST
+    Params:
+        email : User's email for which account was created.
+        password : User's password provided for signup.
+    """
     def post(self):
         data = self.convert_argument_to_json()
 
@@ -90,7 +109,13 @@ class LoginHandler(BaseHandler):
 
 class EditPermissionHandler(BaseHandler):
     """
-    PUT Handler to change the permission of the user. Pass the user access token in the Authorization Header
+     Handler to change the permission of the user. Pass the user access token in the Authorization Header
+
+    Route - /api/edit-user
+    Method - PUT
+    Params -
+        Authorization - Bearer User Access Token received during login or signup
+        permissions -  Int array of length 4
     """
 
     @authenticated
@@ -110,7 +135,7 @@ class EditPermissionHandler(BaseHandler):
                 permission = int(permission)
 
                 if permission not in [0, 1]:
-                    raise Exception
+                    raise Exception('Permission must be either of 0 or 1.')
 
                 permissions[ix] = int(permission)
 
@@ -127,7 +152,7 @@ class EditPermissionHandler(BaseHandler):
 
             updated_permission.extend(permissions)
 
-            user.permissions = updated_permission
+            user.permissions = updated_permission.to01()
 
             session.flush()
 
