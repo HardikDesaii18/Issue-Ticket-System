@@ -52,13 +52,17 @@ class Db:
 
     @contextmanager
     def session_scope(self):
-        """Provide a transactional scope around a series of operations."""
+        """Provide a database scope for operations."""
         session = Session()
+
         try:
             yield session
             session.commit()
+
         except Exception as e:
+
             session.rollback()
-            raise
+            raise Exception
+
         finally:
             session.close()
