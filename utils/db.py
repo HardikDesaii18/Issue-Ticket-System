@@ -62,7 +62,7 @@ class Db:
         except Exception as e:
 
             session.rollback()
-            raise Exception
+            raise
 
         finally:
             session.close()
