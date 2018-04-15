@@ -33,7 +33,7 @@ class CreteTicketHandler(BaseHandler):
 
             response = Ticket.convert_to_dict(tickets)
 
-            self.write(response)
+            self.write(dict(tickets=response))
 
     @authenticated
     def post(self):
@@ -101,14 +101,138 @@ class CreteTicketHandler(BaseHandler):
 
 
 class TicketHandler(BaseHandler):
+
     @authenticated
     def get(self, ticket_uid):
-        pass
+        """
+
+        :param ticket_uid: id of the ticket to be returned
+        :return: ticket details
+        """
+        with self.session_scope() as session:
+            token = self.access_token_from_authorization_header()
+
+            token = convert_uuid_or_400(token)
+
+            auth_token = session.query(AuthToken).filter(AuthToken.uid == token).one_or_none()
+
+            permissions = auth_token.auth.permissions
+
+            if int(permissions[2]) != 1:
+                raise tornado.web.HTTPError(409, 'Current user don\'t have permission to view tickets.')
+
+            ticket = session.query(Ticket).filter(
+                and_(
+                    Ticket.uid == ticket_uid,
+                    Ticket.is_deleted == False
+                )
+            ).one_or_none()
+
+            if ticket:
+
+                response = dict(
+                    status=ticket.status,
+                    type=ticket.type,
+                    product_uid=str(ticket.product_uid),
+                    description=ticket.description,
+                    auth_uid=str(ticket.auth.uid),
+                    uid=str(ticket.uid),
+                    created_at=ticket.created_at.isoformat()
+
+                )
+
+                self.write(response)
+
+            else:
+                raise tornado.web.HTTPError(409, 'No Ticket found for {}'.format(ticket_uid))
+
 
     @authenticated
     def put(self, ticket_uid):
-        pass
+        data = self.convert_argument_to_json()
+
+        status = data.get('status', None)
+        desc = data.get('desc', None)
+
+        if not status or status not in Ticket.VALID_TICKET_STATUS:
+            raise tornado.web.HTTPError(400,
+                                        'Invalid status for ticket. Must be one of select_dev, in_progress or done')
+
+        if not desc:
+            raise tornado.web.HTTPError(400, 'Please provide description for the ticket.')
+
+        with self.session_scope() as session:
+            token = self.access_token_from_authorization_header()
+
+            token = convert_uuid_or_400(token)
+
+            auth_token = session.query(AuthToken).filter(AuthToken.uid == token).one_or_none()
+
+            permissions = auth_token.auth.permissions
+
+            if int(permissions[1]) != 1:
+                raise tornado.web.HTTPError(409, 'Current user don\'t have permission to edit tickets.')
+
+            ticket = session.query(Ticket).filter(
+                and_(
+                    Ticket.uid == ticket_uid,
+                    Ticket.is_deleted == False
+                )
+            ).one_or_none()
+
+            if ticket:
+                description = dict(description=desc)
+
+                ticket.status = status
+                ticket.description=description
+
+                session.flush()
+
+                response = ticket.to_json()
+
+                self.write(response)
+
+            else:
+                raise tornado.web.HTTPError(409, 'No Ticket found for {}'.format(ticket_uid))
+
 
     @authenticated
     def delete(self, ticket_uid):
-        pass
+        """
+
+        :param ticket_uid: uid of the ticket to be deleted
+        :return: uid, creted_at and deleted_at timestamp
+        """
+
+        with self.session_scope() as session:
+            token = self.access_token_from_authorization_header()
+
+            token = convert_uuid_or_400(token)
+
+            auth_token = session.query(AuthToken).filter(AuthToken.uid == token).one_or_none()
+
+            permissions = auth_token.auth.permissions
+
+            if int(permissions[3]) != 1:
+                raise tornado.web.HTTPError(409, 'Current user don\'t have permission to delete tickets.')
+
+            ticket = session.query(Ticket).filter(
+                and_(
+                    Ticket.uid == ticket_uid,
+                    Ticket.is_deleted == False
+                )
+            ).one_or_none()
+
+            if ticket:
+                ticket.mark_deleted()
+
+                session.flush()
+
+                response = ticket.to_json()
+                response['deleted_at'] = ticket.deleted_at.isoformat()
+
+                self.write(response)
+
+            else:
+                raise tornado.web.HTTPError(409, 'No Ticket found for {}'.format(ticket_uid))
+

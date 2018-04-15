@@ -38,11 +38,11 @@ class Ticket(UIDMixin, DeletableMixin, Base):
         for ticket in tickets:
             data.append(
                 dict(
-                    uid=ticket.uid,
+                    uid=str(ticket.uid),
                     description=ticket.description,
                     type=ticket.type,
                     status=ticket.status,
-                    product_uid=ticket.product_uid
+                    product_uid=str(ticket.product_uid)
                 )
             )
 
