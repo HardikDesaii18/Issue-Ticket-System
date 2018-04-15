@@ -12,6 +12,7 @@ class IndexHandler(BaseHandler):
     Method - POST, GET
 
     """
+
     def get(self):
         self.write(dict(message='Hello, Welcome to Issue Ticket System!'))
 
@@ -20,14 +21,16 @@ class IndexHandler(BaseHandler):
 
 
 class SignupHandler(BaseHandler):
-    """
-    Route - /api/sign-up
-    Method - POST
-    Params -
-        email - Unique email for which user's account to be created.
-        password - Any passphrase having min 6 characters.
-    """
     def post(self):
+        """
+            Route - /api/sign-up
+            Method - POST
+            Params -
+                email - Unique email for which user's account to be created.
+                password - Any passphrase having min 6 characters.
+
+            :returns: token, uid, timestamp of the newly created user.
+        """
         data = self.convert_argument_to_json()
 
         email = data.get('email', None)
@@ -72,14 +75,16 @@ class SignupHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
-    """
-    Route - /api/sign-in
-    Method - POST
-    Params:
-        email : User's email for which account was created.
-        password : User's password provided for signup.
-    """
     def post(self):
+        """
+            Route - /api/sign-in
+            Method - POST
+            Params:
+                email : User's email for which account was created.
+                password : User's password provided during signup.
+
+            :returns: token, uid and timestamp of the logged in user.
+        """
         data = self.convert_argument_to_json()
 
         email = data.get('email', None)
@@ -108,18 +113,17 @@ class LoginHandler(BaseHandler):
 
 
 class EditPermissionHandler(BaseHandler):
-    """
-     Handler to change the permission of the user. Pass the user access token in the Authorization Header
-
-    Route - /api/edit-user
-    Method - PUT
-    Params -
-        Authorization - Bearer User Access Token received during login or signup
-        permissions -  Int array of length 4
-    """
-
     @authenticated
     def put(self):
+        """
+            Handler to change the permission of the user. Pass the user access token in the Authorization Header
+
+           Route - /api/edit-user
+           Method - PUT
+           Params -
+               Authorization - Bearer User Access Token received during login or signup
+               permissions -  Int array of length 4
+        """
         token = self.access_token_from_authorization_header()
 
         data = self.convert_argument_to_json()
