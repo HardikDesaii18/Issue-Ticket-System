@@ -15,7 +15,7 @@ class Product(UIDMixin, DeletableMixin, Base):
 
     VALID_PRODUCT_TYPES = [HEALTH_CARE, BANKING, OTHERS]
 
-    name = Column(String(20), nullable=False, unique=True)
+    name = Column(String(20), nullable=False)
     type = Column(String(20), nullable=False, default=OTHERS, server_default=OTHERS)
 
     owner_email = Column(String(30), nullable=False)
