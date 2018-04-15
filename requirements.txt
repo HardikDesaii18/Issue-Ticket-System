@@ -4,7 +4,6 @@ sqlalchemy
 sqlalchemy_utils
 alembic
 bcrypt
-boto3
 awscli
 markdown
 mmh3
