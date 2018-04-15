@@ -12,7 +12,10 @@ class CreteTicketHandler(BaseHandler):
     @authenticated
     def get(self):
         """
-        Handler to get all the tickets if the user has permission to view tickets
+        Handler to get all the tickets if the user has permission to view tickets.
+        Route - /api/ticket
+        Method- GET
+
         :return: list of tickets
         """
         with self.session_scope() as session:
@@ -39,6 +42,15 @@ class CreteTicketHandler(BaseHandler):
     def post(self):
         """
         Handler to create new Ticket.
+
+        Route - /api/ticket
+        Method- POST
+        :param:
+            status - either of select_dev, in_progress or done.
+            type- either of Bug, Enhancement or Feature.
+            product_uid - Foreign key for model Product
+
+            description - JSON field storing the description of ticket.
         :return: uid, timestamp of the ticket created.
         """
         data = self.convert_argument_to_json()
@@ -105,9 +117,13 @@ class TicketHandler(BaseHandler):
     @authenticated
     def get(self, ticket_uid):
         """
+        Handler to get details of a ticket.
 
+        Route - /api/ticket/<ticket-uid>
+        Method - GET
         :param ticket_uid: id of the ticket to be returned
         :return: ticket details
+
         """
         with self.session_scope() as session:
             token = self.access_token_from_authorization_header()
@@ -149,6 +165,16 @@ class TicketHandler(BaseHandler):
 
     @authenticated
     def put(self, ticket_uid):
+        """
+        Handler to update the status and description  of a ticket.
+
+        Route - /api/ticket/<ticket-uid>
+        Method - PUT
+        :param ticket_uid: id of the ticket to be returned
+        :return: uid , timestamp of ticket
+
+        """
+
         data = self.convert_argument_to_json()
 
         status = data.get('status', None)
@@ -199,7 +225,10 @@ class TicketHandler(BaseHandler):
     @authenticated
     def delete(self, ticket_uid):
         """
+        Handler to delete a ticket for given ticket uid.
 
+        Route - /api/ticket/<ticket-uid>
+        Method - PUT
         :param ticket_uid: uid of the ticket to be deleted
         :return: uid, creted_at and deleted_at timestamp
         """

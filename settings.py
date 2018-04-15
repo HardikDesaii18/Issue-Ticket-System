@@ -11,8 +11,7 @@ settings = dict(
     tornado=dict(
         debug=True,
     ),
-
-    tornado_server_settings = {
-        "xheaders" : False
+    tornado_server_settings={
+        "xheaders": False
     },
 )

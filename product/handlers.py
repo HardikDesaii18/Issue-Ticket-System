@@ -10,9 +10,9 @@ class CreateProductHandler(BaseHandler):
     @authenticated
     def get(self):
         """
-            Handler to list all the products
+            Handler to list all the products.
             route - /api/product
-
+            Method - GET
             :return: list of non-deleted products
         """
         with self.session_scope() as session:
@@ -25,8 +25,9 @@ class CreateProductHandler(BaseHandler):
     @authenticated
     def post(self):
         """
-            Handler to create new product
+            Handler to create new product.
             Route - /api/product
+            Method - POST
 
             :param:
                 name - Name of the product
@@ -72,7 +73,10 @@ class ProductHandler(BaseHandler):
     @authenticated
     def get(self, product_uid):
         """
+        Handler to get the product details for th given product uid.
 
+        Route - /api/product/<product-uid>
+        Method - GET
         :param product_uid: uid of the product
         :return: json of the product.
         """
@@ -102,7 +106,10 @@ class ProductHandler(BaseHandler):
     @authenticated
     def put(self, product_uid):
         """
+        Handler to edit the product.
 
+        Route - /api/product/<product-uid>
+        Method - PUT
         :param product_uid: uid of the product to edit
         :return: uid, timestamp of the edited product
 
@@ -149,6 +156,9 @@ class ProductHandler(BaseHandler):
     @authenticated
     def delete(self, product_uid):
         """
+        Handler to delete the product.
+        Route - /api/product/<product-uid>
+        Method - DELETE
         :param product_uid: uid of the product to delete.
         :return: uid, created_at and deleted_at timestamp of product.
         """
