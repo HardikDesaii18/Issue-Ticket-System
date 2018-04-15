@@ -123,6 +123,8 @@ class EditPermissionHandler(BaseHandler):
            Params -
                Authorization - Bearer User Access Token received during login or signup
                permissions -  Int array of length 4
+
+           :returns: - uid, timestamp of the user
         """
         token = self.access_token_from_authorization_header()
 
