@@ -22,13 +22,17 @@ class Product(UIDMixin, DeletableMixin, Base):
 
     @staticmethod
     def convert_to_dict(products):
-        data = dict()
-        for product in products:
+        data = []
 
-            data[product.name] = dict(
-                type=product.type,
-                owner=product.owner_email,
-                uid=product.to_json()
+        for product in products:
+            data.append(
+                dict(
+                    name=product.name,
+                    type=product.type,
+                    owner=product.owner_email,
+                    uid=str(product.uid),
+                    created_at=product.created_at.isoformat()
+                )
             )
 
         return data

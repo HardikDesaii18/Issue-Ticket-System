@@ -20,7 +20,7 @@ class CreateProductHandler(BaseHandler):
 
             response = Product.convert_to_dict(products)
 
-            self.write(response)
+            self.write(dict(products=response))
 
     @authenticated
     def post(self):
@@ -87,7 +87,13 @@ class ProductHandler(BaseHandler):
             ).one_or_none()
 
             if product:
-                response = Product.convert_to_dict(product)
+                response = dict(
+                    name=product.name,
+                    type=product.type,
+                    owner=product.owner_email,
+                    uid=str(product.uid),
+                    created_at=product.created_at.isoformat()
+                )
                 self.write(response)
 
             else:
