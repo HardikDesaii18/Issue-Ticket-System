@@ -47,7 +47,7 @@ def authenticated(method):
 
             token = session.query(AuthToken).filter(AuthToken.uid == token).one_or_none()
 
-            if not token or token.is_expired():
+            if not token or token.is_expired() or token.is_deleted:
                 raise tornado.web.HTTPError(403, 'Auth token invalid or expired. Please login.')
 
         return method(self, *args, **kwargs)
