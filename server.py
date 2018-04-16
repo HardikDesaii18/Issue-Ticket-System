@@ -1,6 +1,7 @@
 import tornado.web
 import tornado.ioloop
 import logging
+import os
 
 
 from auth import routes as auth_routes
@@ -38,8 +39,9 @@ def create(settings):
 def start(application):
     print('Starting the Application...')
 
-    application.listen(8998, **application.all_settings['tornado_server_settings'])
-    logging.info("Listening at port %d", 8998)
+    port = int(os.environ.get("PORT", 8998))
+    application.listen(port, **application.all_settings['tornado_server_settings'])
+    logging.info("Listening at port %d", port)
     tornado.ioloop.IOLoop.instance().start()
 
 

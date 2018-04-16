@@ -16,7 +16,7 @@ def main():
     print("Creating DB tables...")
     from models import Base
 
-    print(Base.metadata)
+    db.drop_tables(Base.metadata)
     db.create_tables(Base.metadata)
 
     print('Done!')

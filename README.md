@@ -65,7 +65,7 @@
 ## Routes
 
  ```
-    Route - /api/sign-up
+    Route - https://issue-ticket.herokuapp.com/api/sign-up
     Method - POST
     Params -
             email - Unique email for which user's account to be created.
@@ -76,7 +76,7 @@
 
 ```
 ```
-    Route - /api/sign-in
+    Route - https://issue-ticket.herokuapp.com/api/sign-in
     Method - POST
     Params:
         email : User's email for which account was created.
@@ -91,11 +91,11 @@
 ```
    Handler to change the permission of the user. Pass the user access token in the Authorization Header.
    
-   Route - /api/edit-user
+   Route - https://issue-ticket.herokuapp.com/api/edit-user
    Method - PUT
    Params -
        Authorization - Bearer User Access Token received during login or signup
-       permissions -  Int array of length 4
+       permissions -  Int array of length 4, must only contain 0 or 1. 
                
    :returns: - uid, timestamp of the user
 ```
@@ -103,7 +103,7 @@
 ```
     Handler to list all the products.
     
-    Route - /api/product
+    Route - https://issue-ticket.herokuapp.com/api/product
     Method - GET
     :return: list of non-deleted products
 
@@ -112,7 +112,7 @@
 ```
     Handler to create new product.
     
-    Route - /api/product
+    Route - https://issue-ticket.herokuapp.com/api/product
     Method - POST
            
     :param:
@@ -127,7 +127,7 @@
 ```
     Handler to get the product details for th given product uid.
       
-    Route - /api/product/<product-uid>
+    Route - https://issue-ticket.herokuapp.com/api/product/<product-uid>
     Method - GET
     :param product_uid: uid of the product
     :return: json of the product.
@@ -137,7 +137,7 @@
 ```
     Handler to edit the product.
         
-    Route - /api/product/<product-uid>
+    Route - https://issue-ticket.herokuapp.com/api/product/<product-uid>
     Method - PUT
     :param product_uid: uid of the product to edit
     :return: uid, timestamp of the edited product
@@ -147,7 +147,7 @@
 ```
     Handler to delete the product.
     
-    Route - /api/product/<product-uid>
+    Route - https://issue-ticket.herokuapp.com/api/product/<product-uid>
     Method - DELETE
     :param product_uid: uid of the product to delete.
     :return: uid, created_at and deleted_at timestamp of product.
@@ -155,7 +155,7 @@
 
 ```
     Handler to get all the tickets if the user has permission to view tickets.
-    Route - /api/ticket
+    Route - https://issue-ticket.herokuapp.com/api/ticket
     Method- GET
         
     :return: list of tickets
@@ -164,7 +164,7 @@
 ```
     Handler to create new Ticket.
         
-    Route - /api/ticket
+    Route - https://issue-ticket.herokuapp.com/api/ticket
     Method- POST
 
     :param:
@@ -180,7 +180,7 @@
 ```
     Handler to get details of a ticket.
          
-    Route - /api/ticket/<ticket-uid>
+    Route - https://issue-ticket.herokuapp.com/api/ticket/<ticket-uid>
     Method - GET
     :param ticket_uid: id of the ticket to be returned
     :return: ticket details
@@ -190,7 +190,7 @@
 ```
     Handler to update the status and description  of a ticket.
          
-    Route - /api/ticket/<ticket-uid>
+    Route - https://issue-ticket.herokuapp.com/api/ticket/<ticket-uid>
     Method - PUT
     :param ticket_uid: id of the ticket to be returned
     :return: uid , timestamp of ticket 
@@ -199,7 +199,7 @@
 ```
     Handler to delete a ticket for given ticket uid.
          
-    Route - /api/ticket/<ticket-uid>
+    Route - https://issue-ticket.herokuapp.com/api/ticket/<ticket-uid>
     Method - PUT
     :param ticket_uid: uid of the ticket to be deleted
     :return: uid, creted_at and deleted_at timestamp
