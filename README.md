@@ -2,9 +2,11 @@
 
  This POC is created using the following
  
-   1. Python framework Tornado.
-   2. PostgreSQL databse hosted on AWS RDS.
-   3. ORM SqlAlchemy
+   1. Framework - Python Tornado.
+   2. Database - PostgreSQL hosted on AWS RDS.
+   3. ORM - SqlAlchemy
+   4. Database Migration - Alembic
+   5. Hosted on a server - Heroku
 
 
 ## Data Models
